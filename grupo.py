@@ -1,3 +1,7 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+from collections import deque
+
 class SistemaDeGrupos:
     def __init__(self):
         self.vertices = set()  # pessoas (para lembrar que o dado dos vertices são as pessoas)
@@ -53,7 +57,52 @@ class SistemaDeGrupos:
         for grupo_id, membros in self.grupos.items():
             print(f"Grupo '{grupo_id}': {sorted(membros) if membros else 'Sem membros'}")
 
-    # Depois transformar em um DFS
+    
+    def plotar_grafo_bfs(self, inicio=None):
+        if not self.vertices:
+            print("Não há pessoas no sistema.")
+            return
+        
+        if inicio is None:
+            inicio = next(iter(self.vertices))
+        elif inicio not in self.vertices:
+            print(f"Pessoa '{inicio}' não existe.")
+            return
+
+        G = nx.Graph()
+        visitados = set()
+        fila = deque([inicio])
+        cores_grupos = {}
+        
+        while fila:
+            atual = fila.popleft()
+            if atual not in visitados:
+                visitados.add(atual)
+                G.add_node(atual)
+                
+                for vizinho, grupo in self.arestas[atual].items():
+                    if grupo not in cores_grupos:
+                        cores_grupos[grupo] = f'#{hash(grupo) & 0xFFFFFF:06x}'
+                    
+                    G.add_edge(atual, vizinho)
+                    if vizinho not in visitados:
+                        fila.append(vizinho)
+
+        pos = nx.spring_layout(G)
+        plt.figure(figsize=(10, 8))
+        
+        for (u, v) in G.edges():
+            grupo = self.arestas[u][v]
+            nx.draw_networkx_edges(G, pos, edgelist=[(u, v)], 
+                                 edge_color=cores_grupos[grupo], width=2)
+        
+        nx.draw_networkx_nodes(G, pos, node_size=500)
+        nx.draw_networkx_labels(G, pos)
+        
+        plt.title("Visualização do Grafo (BFS)")
+        plt.axis('off')
+        plt.show()
+
     def mostrar_conexoes(self):
         print("\nConexões no grafo:")
         for pessoa in self.arestas:
@@ -67,7 +116,8 @@ def menu():
     print("3. Adicionar pessoa ao grupo")
     print("4. Listar grupos")
     print("5. Mostrar conexões")
-    print("6. Sair")
+    print("6. Plotar grafo (BFS)")
+    print("7. Sair")
     return input("Escolha uma opção: ")
 
 if __name__ == "__main__":
@@ -101,6 +151,10 @@ if __name__ == "__main__":
             sistema.mostrar_conexoes()
         
         elif opcao == "6":
+            inicio = input("Digite o nome da pessoa inicial (ou pressione Enter para automático): ")
+            sistema.plotar_grafo_bfs(inicio if inicio.strip() else None)
+        
+        elif opcao == "7":
             print("Encerrando o programa...")
             break
         
