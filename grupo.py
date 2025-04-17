@@ -1,6 +1,6 @@
 class SistemaDeGrupos:
     def __init__(self):
-        self.vertices = set()  # pessoas (para lembrar que o dado dos vertices são as pessoas)
+        self.vertices = set()  # pessoas
         self.arestas = {}  
         self.grupos = {} 
 
@@ -18,15 +18,18 @@ class SistemaDeGrupos:
             return
 
         self.grupos[grupo_id] = set()
-        
+
         if membros:
             membros_validos = [m for m in membros if m in self.vertices]
+            
+            # ✅ Adiciona todos os membros ao grupo
+            self.grupos[grupo_id].update(membros_validos)
+            
+            # ✅ Conecta os pares de membros
             for i in range(len(membros_validos)):
                 for j in range(i+1, len(membros_validos)):
                     self.adicionar_conexao(membros_validos[i], membros_validos[j], grupo_id)
-                    self.grupos[grupo_id].add(membros_validos[i])
-                    self.grupos[grupo_id].add(membros_validos[j])
-        
+
         print(f"Grupo '{grupo_id}' criado com sucesso.")
 
     def adicionar_conexao(self, pessoa1, pessoa2, grupo_id):
@@ -53,7 +56,6 @@ class SistemaDeGrupos:
         for grupo_id, membros in self.grupos.items():
             print(f"Grupo '{grupo_id}': {sorted(membros) if membros else 'Sem membros'}")
 
-    # Depois transformar em um DFS
     def mostrar_conexoes(self):
         print("\nConexões no grafo:")
         for pessoa in self.arestas:
@@ -106,4 +108,3 @@ if __name__ == "__main__":
         
         else:
             print("Opção inválida!")
-
