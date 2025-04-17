@@ -1,3 +1,7 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+from collections import deque
+
 class SistemaDeGrupos:
     def __init__(self):
         self.vertices = set()  # pessoas
@@ -22,10 +26,10 @@ class SistemaDeGrupos:
         if membros:
             membros_validos = [m for m in membros if m in self.vertices]
             
-            # ✅ Adiciona todos os membros ao grupo
+            # Adiciona todos os membros ao grupo
             self.grupos[grupo_id].update(membros_validos)
             
-            # ✅ Conecta os pares de membros
+            # Conecta os pares de membros
             for i in range(len(membros_validos)):
                 for j in range(i+1, len(membros_validos)):
                     self.adicionar_conexao(membros_validos[i], membros_validos[j], grupo_id)
@@ -69,7 +73,8 @@ def menu():
     print("3. Adicionar pessoa ao grupo")
     print("4. Listar grupos")
     print("5. Mostrar conexões")
-    print("6. Sair")
+    print("6. Plotar grafo (BFS)")
+    print("7. Sair")
     return input("Escolha uma opção: ")
 
 if __name__ == "__main__":
@@ -103,6 +108,10 @@ if __name__ == "__main__":
             sistema.mostrar_conexoes()
         
         elif opcao == "6":
+            inicio = input("Digite o nome da pessoa inicial (ou pressione Enter para automático): ")
+            sistema.plotar_grafo_bfs(inicio if inicio.strip() else None)
+        
+        elif opcao == "7":
             print("Encerrando o programa...")
             break
         
