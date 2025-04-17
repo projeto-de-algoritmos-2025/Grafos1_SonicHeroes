@@ -24,12 +24,13 @@ class SistemaDeGrupos:
         self.grupos[grupo_id] = set()
 
         if membros:
+            for nome in membros:
+                if nome not in self.vertices:
+                    self.criar_pessoa(nome)
             membros_validos = [m for m in membros if m in self.vertices]
             
-            # Adiciona todos os membros ao grupo
             self.grupos[grupo_id].update(membros_validos)
-            
-            # Conecta os pares de membros
+
             for i in range(len(membros_validos)):
                 for j in range(i+1, len(membros_validos)):
                     self.adicionar_conexao(membros_validos[i], membros_validos[j], grupo_id)
@@ -65,6 +66,55 @@ class SistemaDeGrupos:
         for pessoa in self.arestas:
             if self.arestas[pessoa]:
                 print(f"{pessoa} está conectado a: {self.arestas[pessoa]}")
+
+    def plotar_grafo_bfs(self, inicio=None):
+        if not self.vertices:
+            print("Não há pessoas no grafo para plotar.")
+            return
+
+        G = nx.Graph()
+
+        # Adiciona os nós
+        for pessoa in self.vertices:
+            G.add_node(pessoa)
+
+        # Adiciona as conexões (arestas)
+        for pessoa, conexoes in self.arestas.items():
+            for vizinho, grupo in conexoes.items():
+                if G.has_edge(pessoa, vizinho):
+                    continue
+                G.add_edge(pessoa, vizinho, label=grupo)
+
+        color_map = []
+        bfs_nos = []
+
+        if inicio and inicio in self.vertices:
+            visitados = set()
+            fila = deque([inicio])
+
+            while fila:
+                atual = fila.popleft()
+                if atual in visitados:
+                    continue
+                visitados.add(atual)
+                bfs_nos.append(atual)
+                for vizinho in self.arestas.get(atual, {}):
+                    if vizinho not in visitados:
+                        fila.append(vizinho)
+
+            for no in G.nodes:
+                color_map.append("skyblue" if no in bfs_nos else "lightgray")
+        else:
+            color_map = ["lightblue"] * len(G.nodes)
+
+        pos = nx.spring_layout(G)
+        edge_labels = nx.get_edge_attributes(G, 'label')
+
+        plt.figure(figsize=(10, 7))
+        nx.draw(G, pos, with_labels=True, node_color=color_map, edge_color='gray', node_size=800, font_size=10)
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='red')
+        plt.title(f"Grafo {'com BFS a partir de ' + inicio if inicio else ''}")
+        plt.show()
 
 def menu():
     print("\n=== Sistema de Grupos ===")
