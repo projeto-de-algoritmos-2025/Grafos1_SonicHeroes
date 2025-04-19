@@ -101,6 +101,6 @@ Funcionalidades Disponíveis:
 Escolha versão que preferir para ver o vídeo de apresentação do projeto
 
 <div align="center">
-  <p><a href="./Trabalho_de_PA_Grafo1.mp4">Vídeo de Apresentação</a></p>
+  <p><a href="./assets/Trabalho_de_PA_Grafo1.mp4">Vídeo de Apresentação</a></p>
   <p><a href="https://youtu.be/RxUHEtagr0Q">Apresentação no YouTube</a></p>
 </div>
