@@ -74,11 +74,9 @@ class SistemaDeGrupos:
 
         G = nx.Graph()
 
-        # Adiciona os nós
         for pessoa in self.vertices:
             G.add_node(pessoa)
 
-        # Adiciona as conexões (arestas)
         for pessoa, conexoes in self.arestas.items():
             for vizinho, grupo in conexoes.items():
                 if G.has_edge(pessoa, vizinho):

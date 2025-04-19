@@ -27,14 +27,16 @@ Este projeto implementa um sistema de gerenciamento de grupos usando a estrutura
 - Listagem de grupos e seus membros
 
 ## Screenshots
-![Criação de Equipe](./assets/image1.png)
-*Figura 1: Criação de Equipe*
+<div align="center">
+  <img src="./assets/image1.png" alt="Criação de Equipe"/>
+  <p><em>Figura 1: Criação de Equipe</em></p>
 
-![Lista de Grupos](./assets/image2.png)
-*Figura 2: Listagem dos grupos criados e Conexões de Grafos*
+  <img src="./assets/image2.png" alt="Lista de Grupos"/>
+  <p><em>Figura 2: Listagem dos grupos criados e Conexões de Grafos</em></p>
 
-![Grafo com BFS](./assets/image3.png)
-*Figura 3: Visualização do grafo utilizando BFS*
+  <img src="./assets/image3.png" alt="Grafo com BFS"/>
+  <p><em>Figura 3: Visualização do grafo utilizando BFS</em></p>
+</div>
 
 ## Instalação 
 **Linguagem**: Python<br>
@@ -93,3 +95,12 @@ Funcionalidades Disponíveis:
    - Opção 4 para ver os grupos
    - Opção 5 para ver as conexões
    - Opção 6 para visualizar o grafo
+  
+## Vídeo
+
+Escolha versão que preferir para ver o vídeo de apresentação do projeto
+
+<div align="center">
+  <p><a href="./Trabalho_de_PA_Grafo1.mp4">Vídeo de Apresentação</a></p>
+  <p><a href="https://youtu.be/RxUHEtagr0Q">Apresentação no YouTube</a></p>
+</div>
